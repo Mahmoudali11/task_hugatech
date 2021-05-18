@@ -170,7 +170,7 @@ print(Validator.isValidPassword(password.text));
 
       
 final route=MaterialPageRoute(builder: (context){
-  return AppNaigation(token: currentuser,);
+  return AppNaigation(token: respond["Data"],);
 });
 
 Navigator.pushReplacement(context, route);
