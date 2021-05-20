@@ -13,15 +13,14 @@ class LoginScreen extends StatelessWidget {
   TextEditingController emai = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  var errMessage = "";
-  var currentuser;
+   var currentuser;
 
   @override
   Widget build(BuildContext context) {
-    print("loginscreeen");
-    final userlogins=Provider.of<UserLogins>(context);
-    final userdata =  Provider.of<UserData>(context);
+    final userlogins=Provider.of<UserLogins>(context,listen: false);
+    final userdata =  Provider.of<UserData>(context,listen: false);
         
+    print("loginscreeen");
 
     return Scaffold(
       body:FutureBuilder<String>(
@@ -36,20 +35,13 @@ class LoginScreen extends StatelessWidget {
                 }
 
 
-               else if(snapshot.hasData){
-         return AppNaigation(token: snapshot.data,);
-    // final route = MaterialPageRoute(builder: (context) {
-    //                             return AppNaigation(
-    //                               token: snapshot.data,
-    //                             );
-    //                           });
-
-    //                           Navigator.pushReplacement(context, route);
-
+                if(snapshot.hasData){
+         return AppNaigation();
+    
 
 
                 }
-                else{
+                if(!snapshot.hasData){
               
               
         return      SingleChildScrollView(
@@ -134,9 +126,11 @@ class LoginScreen extends StatelessWidget {
                         child: custmoButton("Login", () async {
                           print(Validator.isValidPassword(password.text));
                           if (formkey.currentState.validate()) {
+                              print("press");
+
                             final respond = await userlogins.tryLogin(
                                 emai.text, password.text);
-
+                                print("sdsf");
                             if (respond.success == true) {
                               print("success");
 
@@ -147,23 +141,29 @@ class LoginScreen extends StatelessWidget {
                               print(respond.data);
                               final route = MaterialPageRoute(builder: (context) {
                                 return AppNaigation(
-                                  token: respond.data,
-                                );
+                                 );
                               });
    
                               Navigator.pushReplacement(context, route);
                               print("to user profile");
 
                               return;
-                            } else {
-                              errMessage = userlogins.userLogin.message;
-                            }
+                            } 
                           }
                         }, context),
                       ),
-                      errMessage != ""
-                          ? Text(errMessage, style: TextStyle(color: Colors.red))
-                          : Text(errMessage),
+                     Consumer<UserLogins>(builder: (context,d,w){
+                       
+                       if(d.userLogin==null){
+                     
+                         return Text("");
+                         }
+                         else{
+                           return Text(d.userLogin.message,style: TextStyle(color: Colors.red,));
+                         }
+                       })
+
+                     ,
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(

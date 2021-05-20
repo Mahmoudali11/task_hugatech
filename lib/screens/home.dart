@@ -8,20 +8,21 @@ import 'package:task_hugatech/provider/userProfile_provider.dart';
  
 
 class HomeScreen extends StatelessWidget {
-  String token;
-  Profiles profiles = Profiles();
-
- HomeScreen({this.token});
+  
+ HomeScreen();
  
 
   @override
   Widget build(BuildContext context) {
+
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
+
+    
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder<Profile>(
-            future: Provider.of<Profiles>(context,listen:false).getUserProfile(token),
+            future: Provider.of<Profiles>(context,listen:false).getUserProfile(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Text('Something went wrong');

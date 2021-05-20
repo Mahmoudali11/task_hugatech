@@ -3,18 +3,42 @@ import 'package:task_hugatech/model/userProfile.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:task_hugatech/Services/ApiCall.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profiles extends ChangeNotifier {
   Profile profile;
   List p;
-  Future<Profile> getUserProfile(String token) async {
+  static const String token = "token";
+  String usertoken;
+ 
+
+  
+Future<String> getUserData()async{
+      
+
+
+final shared=await SharedPreferences.getInstance();
+usertoken=shared.getString(token);
+    
+
+  return shared.getString(token);
+
+
+
+
+}
+  
+  Future<Profile> getUserProfile() async {
+     usertoken=   await getUserData();
+
     final uri = Uri.parse(userProfileUrl);
+
 
     try {
       final value = await http.get(uri,
-          headers: {"Content-Type": "application/json", "token": "$token"});
-      final sjson = value.body;
-      final pjson = convert.jsonDecode(sjson);
+          headers: {"Content-Type": "application/json", "token": "$usertoken"});
+       final pjson = convert.jsonDecode(value.body);
 
       if (value.statusCode == 200) {
         profile = Profile.fromJson(pjson);

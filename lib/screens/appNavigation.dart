@@ -7,17 +7,15 @@ import 'package:task_hugatech/screens/home.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class AppNaigation extends StatefulWidget {
-  String token;
- AppNaigation({this.token});
+  
  
   @override
-  State<AppNaigation > createState() => _AppNaigationState(this.token);
+  State<AppNaigation > createState() => _AppNaigationState();
 }
 
  class _AppNaigationState extends State<AppNaigation > {
-   String token;
-  int _selectedIndex = 0;
-  _AppNaigationState(this.token);
+   int _selectedIndex = 0;
+  _AppNaigationState();
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
       
@@ -25,7 +23,7 @@ class AppNaigation extends StatefulWidget {
   @override
   void initState() {
     _widgetOptions=<Widget>[
-  HomeScreen(token:token),
+  HomeScreen(),
   Text(""),
   Text(""),
   Text(""),
