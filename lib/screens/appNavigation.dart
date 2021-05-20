@@ -25,7 +25,7 @@ class AppNaigation extends StatefulWidget {
   @override
   void initState() {
     _widgetOptions=<Widget>[
-  HomeScreen(token: token,),
+  HomeScreen(token:token),
   Text(""),
   Text(""),
   Text(""),

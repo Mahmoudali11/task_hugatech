@@ -1,41 +1,18 @@
-import 'dart:ffi';
-
+ 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_hugatech/model/userProfile.dart';
 import 'package:task_hugatech/screens/theme/style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_hugatech/provider/userProfile_provider.dart';
 
-class HomeScreen extends StatefulWidget {
+ 
+
+class HomeScreen extends StatelessWidget {
   String token;
-  HomeScreen({this.token});
-
-  @override
-  _HomeScreenState createState() => _HomeScreenState(this.token);
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  String token;
-  _HomeScreenState(this.token);
   Profiles profiles = Profiles();
 
-  Future<String> getUserData() async {
-    final shared = await SharedPreferences.getInstance();
-    return shared.getString(token);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() async {
-    await getUserData().then((value) {
-      token = value;
-      token = token;
-    });
-    super.didChangeDependencies();
-  }
+ HomeScreen({this.token});
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder<Profile>(
-            future: profiles.getUserProfile(token),
+            future: Provider.of<Profiles>(context,listen:false).getUserProfile(token),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Text('Something went wrong');
